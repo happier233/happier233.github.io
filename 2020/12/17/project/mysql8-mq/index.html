@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","offset":12,"onmobile":false,"padding":18},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"nav":null,"lazyload":false},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="概述  mysql 8 新特性 MySQL 8增加了 Locking Read Concurrency with NOWAIT and SKIP LOCKED 的实现 官方文档：mysql8 15.7.2.4 Locking Reads  消息队列   普通的消息队列就是由生产者与消费者组成，多数场景下数据都会先落库然后将消息发送到消息队列，等待消费者进行消费。消费者在消费的时候往往需要保证执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于MySQL 8的特性实现拉模型的消息队列">
+<meta property="og:url" content="http://yoursite.com/2020/12/17/project/mysql8-mq/index.html">
+<meta property="og:site_name" content="Happier233的博客">
+<meta property="og:description" content="概述  mysql 8 新特性 MySQL 8增加了 Locking Read Concurrency with NOWAIT and SKIP LOCKED 的实现 官方文档：mysql8 15.7.2.4 Locking Reads  消息队列   普通的消息队列就是由生产者与消费者组成，多数场景下数据都会先落库然后将消息发送到消息队列，等待消费者进行消费。消费者在消费的时候往往需要保证执行">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-17T12:34:49.000Z">
+<meta property="article:modified_time" content="2020-12-17T14:06:50.992Z">
+<meta property="article:author" content="Happier233">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/17/project/mysql8-mq/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>基于MySQL 8的特性实现拉模型的消息队列 | Happier233的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Happier233的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Happier233的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/17/project/mysql8-mq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Happier233">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Happier233的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于MySQL 8的特性实现拉模型的消息队列
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-17 20:34:49 / 修改时间：22:06:50" itemprop="dateCreated datePublished" datetime="2020-12-17T20:34:49+08:00">2020-12-17</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h1>
+<h2 id="mysql-8-新特性"><a class="markdownIt-Anchor" href="#mysql-8-新特性"></a> mysql 8 新特性</h2>
+<p>MySQL 8增加了 <strong>Locking Read Concurrency with NOWAIT and SKIP LOCKED</strong> 的实现<br />
+官方文档：<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html" target="_blank" rel="noopener">mysql8 15.7.2.4 Locking Reads</a></p>
+<h2 id="消息队列"><a class="markdownIt-Anchor" href="#消息队列"></a> 消息队列</h2>
+<p>  普通的消息队列就是由生产者与消费者组成，多数场景下数据都会先落库然后将消息发送到消息队列，等待消费者进行消费。消费者在消费的时候往往需要保证执行的成功性，如果失败则需要进行n次重试。在某些场景下还需要事务消息的存在，需要保证消息与数据库写入同时成功。<br />
+  在一些小型项目内完全没有必要引入体量巨大的消息队列中间件，但多数项目都有数据库的依赖。所以直接使用mysql进行消息队列实现可以简化某些项目的体量。</p>
+<h1 id="实现"><a class="markdownIt-Anchor" href="#实现"></a> 实现</h1>
+<h2 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h2>
+<p>使用单表记录存放消息<br />
+结构：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>int(11)</td>
+<td>主键</td>
+</tr>
+<tr>
+<td>topic</td>
+<td>varchar(64)</td>
+<td>主题</td>
+</tr>
+<tr>
+<td>key</td>
+<td>varchar(64)</td>
+<td>消息唯一性</td>
+</tr>
+<tr>
+<td>status</td>
+<td>int(11)</td>
+<td>消费状态</td>
+</tr>
+<tr>
+<td>retry</td>
+<td>int(11)</td>
+<td>剩余重试次数</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>bigint(20)</td>
+<td>任务最小开始执行的时间</td>
+</tr>
+<tr>
+<td>exception</td>
+<td>varchar(11)</td>
+<td>错误内容</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>varchar(256)</td>
+<td>消息主体</td>
+</tr>
+</tbody>
+</table>
+<p>建立唯一索引1(topic, key, retry)，建立普通索引2(topic, status, start_time)<br />
+状态分为：0（未消费），1（消费失败），2（消费成功）</p>
+<h2 id="处理逻辑"><a class="markdownIt-Anchor" href="#处理逻辑"></a> 处理逻辑</h2>
+<h3 id="查找可以消费的消息"><a class="markdownIt-Anchor" href="#查找可以消费的消息"></a> 查找可以消费的消息</h3>
+<p>先开启事务，查找可以消费的消息，指定Topic，指定状态是待消费，开始时间小于等于当前时间</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> task <span class="keyword">WHERE</span> topic=<span class="string">'topic1'</span> <span class="keyword">status</span>=<span class="number">0</span> <span class="keyword">AND</span> start_time&lt;=<span class="number">1608212942</span> <span class="keyword">LIMIT</span> <span class="number">1</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span> <span class="keyword">SKIP</span> <span class="keyword">LOCKED</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="消费成功"><a class="markdownIt-Anchor" href="#消费成功"></a> 消费成功</h3>
+<p>更新状态为3，表示消费成功</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> task <span class="keyword">SET</span> <span class="keyword">status</span>=<span class="number">3</span> <span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="number">1000</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="消费失败"><a class="markdownIt-Anchor" href="#消费失败"></a> 消费失败</h3>
+<p>更新状态为2，表示当前消息消费失败<br />
+检查当前retry是否大于0，若大于0，则插入一条新的消息，状态为0，retry-1</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> task <span class="keyword">SET</span> <span class="keyword">status</span>=<span class="number">2</span> <span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="number">1000</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="异常退出"><a class="markdownIt-Anchor" href="#异常退出"></a> 异常退出</h3>
+<p>若消费者在消费期间异常退出，则事务会被rollback，那么最多当前消费行为被当做无效行为，但可以保证会被下一个消费者重试，但无法保证重试次数是有效的。但异常退出本身就是少数情况，正常情况下的代码逻辑异常都会被捕获，不会导致该情况发生。</p>
+<h1 id="注意点"><a class="markdownIt-Anchor" href="#注意点"></a> 注意点</h1>
+<p>由于是通过事务来进行的行锁，所以在逻辑调用的时候要防止内部逻辑中有数据库操作导致的关联rollback，最好开启多个session进行数据库操作</p>
+<h1 id="性能问题"><a class="markdownIt-Anchor" href="#性能问题"></a> 性能问题</h1>
+<p>消息拉取的SQL会走索引2，所以在mysql8的innodb引擎中，会命中行锁，所以不会产生并发问题，但由于整个消费期间事务不会被释放，所以会有大量的事务和链接保持，会数据库有一定的性能影响，具体影响有多少未进行测试。这个设计也仅仅是一个轻量级的拉模式消息队列实现，至少保证了事务一定会被消费成功。<br />
+后续有时间会进行简单的性能测试。</p>
+<h1 id="额外"><a class="markdownIt-Anchor" href="#额外"></a> 额外</h1>
+<p>基于这个表还可以实现消费结果的存放</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/05/study/network/" rel="prev" title="计算机网络复习笔记">
+      <i class="fa fa-chevron-left"></i> 计算机网络复习笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql-8-新特性"><span class="nav-number">1.1.</span> <span class="nav-text"> mysql 8 新特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息队列"><span class="nav-number">1.2.</span> <span class="nav-text"> 消息队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text"> 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.1.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理逻辑"><span class="nav-number">2.2.</span> <span class="nav-text"> 处理逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找可以消费的消息"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 查找可以消费的消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消费成功"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 消费成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消费失败"><span class="nav-number">2.2.3.</span> <span class="nav-text"> 消费失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常退出"><span class="nav-number">2.2.4.</span> <span class="nav-text"> 异常退出</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意点"><span class="nav-number">3.</span> <span class="nav-text"> 注意点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能问题"><span class="nav-number">4.</span> <span class="nav-text"> 性能问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#额外"><span class="nav-number">5.</span> <span class="nav-text"> 额外</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Happier233"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Happier233</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/happier233" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;happier233" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:happier233@qq.com" title="E-Mail → mailto:happier233@qq.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Happier233</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='30' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css">
+  <script src="//cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.css">
+
+
+  
+
+    </div>
+</body>
+</html>
