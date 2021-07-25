@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://blog.happypie.net/"/>
   <updated>2021-07-25T15:19:45.507Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://blog.happypie.net/</id>
   
   <author>
     <name>Happier233</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>ACM题优化经验</title>
-    <link href="http://yoursite.com/2021/07/25/xcpc/xcpc-optimize/"/>
-    <id>http://yoursite.com/2021/07/25/xcpc/xcpc-optimize/</id>
+    <link href="https://blog.happypie.net/2021/07/25/xcpc/xcpc-optimize/"/>
+    <id>https://blog.happypie.net/2021/07/25/xcpc/xcpc-optimize/</id>
     <published>2021-07-24T16:30:00.000Z</published>
     <updated>2021-07-25T15:19:45.507Z</updated>
     
@@ -36,15 +36,15 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
     
   </entry>
   
   <entry>
     <title>XCPC退役总结</title>
-    <link href="http://yoursite.com/2021/05/31/xcpc/xcpc-ending/"/>
-    <id>http://yoursite.com/2021/05/31/xcpc/xcpc-ending/</id>
+    <link href="https://blog.happypie.net/2021/05/31/xcpc/xcpc-ending/"/>
+    <id>https://blog.happypie.net/2021/05/31/xcpc/xcpc-ending/</id>
     <published>2021-05-31T08:53:42.000Z</published>
     <updated>2021-07-24T16:04:29.406Z</updated>
     
@@ -62,15 +62,15 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
     
   </entry>
   
   <entry>
     <title>2020年浙江工商大学新生赛</title>
-    <link href="http://yoursite.com/2020/12/20/xcpc/zjgsu/2020-acm-new/"/>
-    <id>http://yoursite.com/2020/12/20/xcpc/zjgsu/2020-acm-new/</id>
+    <link href="https://blog.happypie.net/2020/12/20/xcpc/zjgsu/2020-acm-new/"/>
+    <id>https://blog.happypie.net/2020/12/20/xcpc/zjgsu/2020-acm-new/</id>
     <published>2020-12-20T10:00:00.000Z</published>
     <updated>2021-07-24T15:59:50.525Z</updated>
     
@@ -88,23 +88,23 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="OJ" scheme="http://yoursite.com/categories/XCPC/OJ/"/>
+      <category term="OJ" scheme="https://blog.happypie.net/categories/XCPC/OJ/"/>
     
-      <category term="ZJGSU" scheme="http://yoursite.com/categories/XCPC/OJ/ZJGSU/"/>
+      <category term="ZJGSU" scheme="https://blog.happypie.net/categories/XCPC/OJ/ZJGSU/"/>
     
     
-      <category term="ZJGSU" scheme="http://yoursite.com/tags/ZJGSU/"/>
+      <category term="ZJGSU" scheme="https://blog.happypie.net/tags/ZJGSU/"/>
     
-      <category term="新生赛" scheme="http://yoursite.com/tags/%E6%96%B0%E7%94%9F%E8%B5%9B/"/>
+      <category term="新生赛" scheme="https://blog.happypie.net/tags/%E6%96%B0%E7%94%9F%E8%B5%9B/"/>
     
   </entry>
   
   <entry>
     <title>2019 ICPC EC Final</title>
-    <link href="http://yoursite.com/2020/12/20/xcpc/contest/2019-ec-final/"/>
-    <id>http://yoursite.com/2020/12/20/xcpc/contest/2019-ec-final/</id>
+    <link href="https://blog.happypie.net/2020/12/20/xcpc/contest/2019-ec-final/"/>
+    <id>https://blog.happypie.net/2020/12/20/xcpc/contest/2019-ec-final/</id>
     <published>2020-12-20T10:00:00.000Z</published>
     <updated>2021-07-24T16:03:09.859Z</updated>
     
@@ -122,25 +122,25 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="OJ" scheme="http://yoursite.com/categories/XCPC/OJ/"/>
+      <category term="OJ" scheme="https://blog.happypie.net/categories/XCPC/OJ/"/>
     
-      <category term="爆搜" scheme="http://yoursite.com/categories/XCPC/%E7%88%86%E6%90%9C/"/>
+      <category term="爆搜" scheme="https://blog.happypie.net/categories/XCPC/%E7%88%86%E6%90%9C/"/>
     
-      <category term="牛客" scheme="http://yoursite.com/categories/XCPC/OJ/%E7%89%9B%E5%AE%A2/"/>
+      <category term="牛客" scheme="https://blog.happypie.net/categories/XCPC/OJ/%E7%89%9B%E5%AE%A2/"/>
     
     
-      <category term="ec-final" scheme="http://yoursite.com/tags/ec-final/"/>
+      <category term="ec-final" scheme="https://blog.happypie.net/tags/ec-final/"/>
     
-      <category term="爆搜" scheme="http://yoursite.com/tags/%E7%88%86%E6%90%9C/"/>
+      <category term="爆搜" scheme="https://blog.happypie.net/tags/%E7%88%86%E6%90%9C/"/>
     
   </entry>
   
   <entry>
     <title>基于MySQL 8的特性实现拉模型的消息队列</title>
-    <link href="http://yoursite.com/2020/12/17/project/mysql8-mq/"/>
-    <id>http://yoursite.com/2020/12/17/project/mysql8-mq/</id>
+    <link href="https://blog.happypie.net/2020/12/17/project/mysql8-mq/"/>
+    <id>https://blog.happypie.net/2020/12/17/project/mysql8-mq/</id>
     <published>2020-12-17T12:34:49.000Z</published>
     <updated>2021-07-24T15:59:04.867Z</updated>
     
@@ -162,8 +162,8 @@
   
   <entry>
     <title>计算机网络复习笔记</title>
-    <link href="http://yoursite.com/2019/12/05/study/network/"/>
-    <id>http://yoursite.com/2019/12/05/study/network/</id>
+    <link href="https://blog.happypie.net/2019/12/05/study/network/"/>
+    <id>https://blog.happypie.net/2019/12/05/study/network/</id>
     <published>2019-12-05T04:00:00.000Z</published>
     <updated>2019-12-18T10:47:27.103Z</updated>
     
@@ -180,19 +180,19 @@
     </summary>
     
     
-      <category term="学科复习" scheme="http://yoursite.com/categories/%E5%AD%A6%E7%A7%91%E5%A4%8D%E4%B9%A0/"/>
+      <category term="学科复习" scheme="https://blog.happypie.net/categories/%E5%AD%A6%E7%A7%91%E5%A4%8D%E4%B9%A0/"/>
     
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E5%AD%A6%E7%A7%91%E5%A4%8D%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+      <category term="计算机网络" scheme="https://blog.happypie.net/categories/%E5%AD%A6%E7%A7%91%E5%A4%8D%E4%B9%A0/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="计网复习" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%BD%91%E5%A4%8D%E4%B9%A0/"/>
+      <category term="计网复习" scheme="https://blog.happypie.net/tags/%E8%AE%A1%E7%BD%91%E5%A4%8D%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>Codeforces Round #469D</title>
-    <link href="http://yoursite.com/2019/11/13/xcpc/codeforces/950E/"/>
-    <id>http://yoursite.com/2019/11/13/xcpc/codeforces/950E/</id>
+    <link href="https://blog.happypie.net/2019/11/13/xcpc/codeforces/950E/"/>
+    <id>https://blog.happypie.net/2019/11/13/xcpc/codeforces/950E/</id>
     <published>2019-11-13T02:18:13.000Z</published>
     <updated>2019-11-13T02:34:56.086Z</updated>
     
@@ -215,8 +215,8 @@
   
   <entry>
     <title>2019 CCPC-Final</title>
-    <link href="http://yoursite.com/2019/11/11/xcpc/contest/2019-ccpc-final/"/>
-    <id>http://yoursite.com/2019/11/11/xcpc/contest/2019-ccpc-final/</id>
+    <link href="https://blog.happypie.net/2019/11/11/xcpc/contest/2019-ccpc-final/"/>
+    <id>https://blog.happypie.net/2019/11/11/xcpc/contest/2019-ccpc-final/</id>
     <published>2019-11-11T04:00:00.000Z</published>
     <updated>2021-07-24T15:59:21.607Z</updated>
     
@@ -234,27 +234,27 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="比赛" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/"/>
+      <category term="比赛" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/"/>
     
-      <category term="2019" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/"/>
+      <category term="2019" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/"/>
     
-      <category term="CCPC" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/CCPC/"/>
+      <category term="CCPC" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/CCPC/"/>
     
     
-      <category term="2019" scheme="http://yoursite.com/tags/2019/"/>
+      <category term="2019" scheme="https://blog.happypie.net/tags/2019/"/>
     
-      <category term="北京" scheme="http://yoursite.com/tags/%E5%8C%97%E4%BA%AC/"/>
+      <category term="北京" scheme="https://blog.happypie.net/tags/%E5%8C%97%E4%BA%AC/"/>
     
-      <category term="CCPC总决赛" scheme="http://yoursite.com/tags/CCPC%E6%80%BB%E5%86%B3%E8%B5%9B/"/>
+      <category term="CCPC总决赛" scheme="https://blog.happypie.net/tags/CCPC%E6%80%BB%E5%86%B3%E8%B5%9B/"/>
     
   </entry>
   
   <entry>
     <title>计蒜客-39277 And And And(2019西安邀请赛-点分治)</title>
-    <link href="http://yoursite.com/2019/11/08/xcpc/jsk/39277/"/>
-    <id>http://yoursite.com/2019/11/08/xcpc/jsk/39277/</id>
+    <link href="https://blog.happypie.net/2019/11/08/xcpc/jsk/39277/"/>
+    <id>https://blog.happypie.net/2019/11/08/xcpc/jsk/39277/</id>
     <published>2019-11-08T09:40:00.000Z</published>
     <updated>2021-07-24T16:03:44.632Z</updated>
     
@@ -273,29 +273,29 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="OJ" scheme="http://yoursite.com/categories/XCPC/OJ/"/>
+      <category term="OJ" scheme="https://blog.happypie.net/categories/XCPC/OJ/"/>
     
-      <category term="树分治" scheme="http://yoursite.com/categories/XCPC/%E6%A0%91%E5%88%86%E6%B2%BB/"/>
+      <category term="树分治" scheme="https://blog.happypie.net/categories/XCPC/%E6%A0%91%E5%88%86%E6%B2%BB/"/>
     
-      <category term="点分治" scheme="http://yoursite.com/categories/XCPC/%E6%A0%91%E5%88%86%E6%B2%BB/%E7%82%B9%E5%88%86%E6%B2%BB/"/>
+      <category term="点分治" scheme="https://blog.happypie.net/categories/XCPC/%E6%A0%91%E5%88%86%E6%B2%BB/%E7%82%B9%E5%88%86%E6%B2%BB/"/>
     
-      <category term="计蒜客" scheme="http://yoursite.com/categories/XCPC/OJ/%E8%AE%A1%E8%92%9C%E5%AE%A2/"/>
+      <category term="计蒜客" scheme="https://blog.happypie.net/categories/XCPC/OJ/%E8%AE%A1%E8%92%9C%E5%AE%A2/"/>
     
     
-      <category term="点分治" scheme="http://yoursite.com/tags/%E7%82%B9%E5%88%86%E6%B2%BB/"/>
+      <category term="点分治" scheme="https://blog.happypie.net/tags/%E7%82%B9%E5%88%86%E6%B2%BB/"/>
     
-      <category term="计蒜客" scheme="http://yoursite.com/tags/%E8%AE%A1%E8%92%9C%E5%AE%A2/"/>
+      <category term="计蒜客" scheme="https://blog.happypie.net/tags/%E8%AE%A1%E8%92%9C%E5%AE%A2/"/>
     
-      <category term="2019西安邀请赛" scheme="http://yoursite.com/tags/2019%E8%A5%BF%E5%AE%89%E9%82%80%E8%AF%B7%E8%B5%9B/"/>
+      <category term="2019西安邀请赛" scheme="https://blog.happypie.net/tags/2019%E8%A5%BF%E5%AE%89%E9%82%80%E8%AF%B7%E8%B5%9B/"/>
     
   </entry>
   
   <entry>
     <title>HDU-5274 Dylans loves tree(树剖模板题)</title>
-    <link href="http://yoursite.com/2019/11/06/xcpc/hdu/5274/"/>
-    <id>http://yoursite.com/2019/11/06/xcpc/hdu/5274/</id>
+    <link href="https://blog.happypie.net/2019/11/06/xcpc/hdu/5274/"/>
+    <id>https://blog.happypie.net/2019/11/06/xcpc/hdu/5274/</id>
     <published>2019-11-06T10:29:54.000Z</published>
     <updated>2021-07-24T16:03:41.574Z</updated>
     
@@ -313,25 +313,25 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="OJ" scheme="http://yoursite.com/categories/XCPC/OJ/"/>
+      <category term="OJ" scheme="https://blog.happypie.net/categories/XCPC/OJ/"/>
     
-      <category term="树剖" scheme="http://yoursite.com/categories/XCPC/%E6%A0%91%E5%89%96/"/>
+      <category term="树剖" scheme="https://blog.happypie.net/categories/XCPC/%E6%A0%91%E5%89%96/"/>
     
-      <category term="hdu" scheme="http://yoursite.com/categories/XCPC/OJ/hdu/"/>
+      <category term="hdu" scheme="https://blog.happypie.net/categories/XCPC/OJ/hdu/"/>
     
     
-      <category term="hdu" scheme="http://yoursite.com/tags/hdu/"/>
+      <category term="hdu" scheme="https://blog.happypie.net/tags/hdu/"/>
     
-      <category term="树剖" scheme="http://yoursite.com/tags/%E6%A0%91%E5%89%96/"/>
+      <category term="树剖" scheme="https://blog.happypie.net/tags/%E6%A0%91%E5%89%96/"/>
     
   </entry>
   
   <entry>
     <title>2019ICPC区域赛南昌站</title>
-    <link href="http://yoursite.com/2019/11/01/xcpc/contest/2019-icpc-region-NanChang/"/>
-    <id>http://yoursite.com/2019/11/01/xcpc/contest/2019-icpc-region-NanChang/</id>
+    <link href="https://blog.happypie.net/2019/11/01/xcpc/contest/2019-icpc-region-NanChang/"/>
+    <id>https://blog.happypie.net/2019/11/01/xcpc/contest/2019-icpc-region-NanChang/</id>
     <published>2019-11-01T04:00:00.000Z</published>
     <updated>2021-07-24T16:03:08.799Z</updated>
     
@@ -350,20 +350,20 @@
     </summary>
     
     
-      <category term="XCPC" scheme="http://yoursite.com/categories/XCPC/"/>
+      <category term="XCPC" scheme="https://blog.happypie.net/categories/XCPC/"/>
     
-      <category term="比赛" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/"/>
+      <category term="比赛" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/"/>
     
-      <category term="2019" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/"/>
+      <category term="2019" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/"/>
     
-      <category term="ICPC" scheme="http://yoursite.com/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/ICPC/"/>
+      <category term="ICPC" scheme="https://blog.happypie.net/categories/XCPC/%E6%AF%94%E8%B5%9B/2019/ICPC/"/>
     
     
-      <category term="2019" scheme="http://yoursite.com/tags/2019/"/>
+      <category term="2019" scheme="https://blog.happypie.net/tags/2019/"/>
     
-      <category term="南昌" scheme="http://yoursite.com/tags/%E5%8D%97%E6%98%8C/"/>
+      <category term="南昌" scheme="https://blog.happypie.net/tags/%E5%8D%97%E6%98%8C/"/>
     
-      <category term="ICPC区域赛" scheme="http://yoursite.com/tags/ICPC%E5%8C%BA%E5%9F%9F%E8%B5%9B/"/>
+      <category term="ICPC区域赛" scheme="https://blog.happypie.net/tags/ICPC%E5%8C%BA%E5%9F%9F%E8%B5%9B/"/>
     
   </entry>
   
